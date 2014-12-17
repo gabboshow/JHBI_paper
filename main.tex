@@ -1,0 +1,238 @@
+%02 12 2014
+
+\documentclass[journal]{IEEEtran}
+% *** CITATION PACKAGES ***
+\usepackage[sort&compress]{natbib}
+%\usepackage{cite}
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+%\ifCLASSINFOpdf
+%  % \usepackage[pdftex]{graphicx}
+%  % declare the path(s) where your graphic files are
+%  % \graphicspath{{../pdf/}{../jpeg/}}
+%  % and their extensions so you won't have to specify these with
+%  % every instance of \includegraphics
+%  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+%\else
+%  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+%  % will default to the driver specified in the system graphics.cfg if no
+%  % driver is specified.
+%  % \usepackage[dvips]{graphicx}
+%  % declare the path(s) where your graphic files are
+%  % \graphicspath{{../eps/}}
+%  % and their extensions so you won't have to specify these with
+%  % every instance of \includegraphics
+%  % \DeclareGraphicsExtensions{.eps}
+%\fi
+\usepackage{graphicx}
+\usepackage[caption=false,font=footnotesize]{subfig}
+\usepackage{epstopdf}
+\usepackage{multirow}
+\usepackage{rotating}
+
+\usepackage{color}
+
+
+
+% *** MATH PACKAGES ***
+\usepackage{breqn}
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+% Do not put math or special symbols in the title.
+%\title{LDA as Model of Physical Activity profiles in COPD patients}
+\title{Identifying Physical Activity Profiles in COPD Patients Using Topic Models}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+
+\author{Gabriele~Spina,
+        Piero~Casale,
+        J\"{o}rg~D.~Leuppi,        
+        Paul~S.~Albert,         
+        Emiel~F.~M.~Wouters,        
+        Nidia~A.~Hernandes,
+        Sally~J.~Singh,        
+		Frank~W.~J.~M.~Smeenk,
+        Arnoldus~J.~R.~van~Gestel,        
+		Judith~Garcia-Aymerich,
+		Richard~W.~Costello,		
+		Ruth~Tal-Singer,
+		Jennifer~Alison,
+        Martijn~A.~Spruit,
+        and~Albertus~C.~den~Brinker% <-this % stops a space
+        
+        
+\thanks{G.~Spina is with the Department
+of Electrical Engineering, Eindhoven University of Technology, and with Smart Sensing and Analysis Group, Philips Research, Eindhoven, The Netherlands,
+e-mail: g.spina@tue.nl.}% <-this % stops a space
+\thanks{P.~Casale is with the Department
+of Electrical Engineering, Eindhoven University of Technology, The Netherlands.}
+\thanks{J.~D.~Leuppi, is with Medical University Clinic, Cantonal Hospital Baselland, Liestal and Medical Faculty, University of Basel, Basel, Switzerland.}
+\thanks{P.~S.~Albert is with School of Ageing and Chronic Disease, University Hospital Aintree, Liverpool, United Kingdom.}
+\thanks{E.~F.~M.~Wouters is with the Department of Respiratory Medicine, Maastricht University Medical Center+ (MUMC+), Maastricht, The Netherlands.}
+\thanks{N.~A.~Hernandes is with the Laboratory of Research in Respiratory Physiotherapy, Department of Physiotherapy, State University of Londrina (UEL), Londrina, Brazil.}
+\thanks{S.~J.~Singh is with the NIHR EM CLAHRC - Centre for Exercise and Rehabilitation Science, University Hospitals, Leicester, United Kingdom.}
+\thanks{F.~W.~J.~M.~Smeenk is with the Department of Respiratory Medicine, Catharina Hospital, Eindhoven, The Netherlands.}
+\thanks{A.~J.~R.~van~Gestel is with the Pulmonary Division, University Hospital of Zurich, Zurich, Switzerland.}
+\thanks{J.~Garcia-Aymerich is with the Centre for Research in Environmental Epidemiology (CREAL), Barcelona, Spain.}
+\thanks{R.~W.~Costello is with the Department of Respiratory Medicine, Beaumont Hospital, Dublin, Ireland.}
+\thanks{R.~Tal-Singer is with GlaxoSmithKline R\&D, King of Prussia, PA, United States of America.}
+\thanks{J.~Alison is with Clinical and Rehabilitation Sciences, The University of Sydney, Sydney, NSW, Australia.}
+\thanks{M.A.~Spruit is with Department of Research \& Education, Center of expertise for chronic organ failure (CIRO+), Horn, The Netherlands.}
+\thanks{A.B.~den~Brinker is with Smart Sensing and Analysis Group, Philips Research, Eindhoven, The Netherlands.}% <-this % stops a space
+}
+
+%BEFORE
+%\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
+%        John~Doe,~\IEEEmembership{Fellow,~OSA,}
+%        and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
+%\thanks{M. Shell is with the Department
+%of Electrical and Computer Engineering, Georgia Institute of Technology, Atlanta,
+%GA, 30332 USA e-mail: (see http://www.michaelshell.org/contact.html).}% <-this % stops a space
+%\thanks{J. Doe and J. Doe are with Anonymous University.}% <-this % stops a space
+%\thanks{Manuscript received April 19, 2005; revised December 27, 2012.}}
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+\markboth{Journal of \LaTeX\ Class Files,~Vol.~11, No.~4, December~2012}%
+{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2012 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\input{abstract.tex}
+
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Activity routine, COPD, topic models.
+\end{IEEEkeywords}
+
+
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+\newpage
+\input{introduction.tex}
+
+%\newpage
+\input{related_works_final.tex}
+
+
+%\input{topic_models.tex}
+\input{unsupervised_routine_discovery.tex}
+
+%\newpage
+\input{methods.tex}
+
+%\newpage
+%\input{results_fix_94_18.tex}
+\input{results_EM_94_18.tex}
+
+%\newpage
+%\input{discussion.tex}
+
+\input{conclusion.tex}
+
+
+
+%% use section* for acknowledgement
+%\section*{Acknowledgment}
+
+
+
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+
+\bibliographystyle{plain}
+%% argument is your BibTeX string definitions and bibliography database(s)
+\small{
+\bibliography{mybibfile}
+}
+% that's all folks
+\end{document}

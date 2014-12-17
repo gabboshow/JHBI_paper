@@ -1,0 +1,171 @@
+\section{Related works}
+%02 12 2014
+Traditional methods for measuring daily, free-living
+physical activity are imprecise and suffer from a number
+of problems. For example, methods that rely on selfreport
+of activity and exercise, such as diaries and questionnaires,
+are both time-consuming and unreliable, especially
+for the elderly because they depend on memory
+[16,17]. outine
+Other more reliable methods, such as radioisotope
+techniques using doubly labeled water, are technologically
+complex and expensive [18].
+A wide array of motion sensors 
+
+
+
+
+Over the last few decades, the methods used to objectively assess a person's behavior in terms of body postures (e.g., sitting, standing), body movements(e.g., walking, cycling),and/or daily activities (e.g., sports, gardening) in a daily life setting have improved considerably. Devices have become smaller, power consumption requirements have decreased, data storage capacity has increased, and innovative, integrated sensors have been developed. 
+
+%These developments and outcome variables have contributed to a better understanding of daily behavior and a more accepted role of it in research and clinical practice.
+In recent years, several human behaviour studies have been carried out related to the monitoring of of COPD~\cite{Waschki_2012, Patel_2007}. 
+
+Beyond low-level activity recognition, extracting routines (e.g., dining, office work, or taking bus)
+has received attention because routine information provides high-level semantics for understanding human behaviors. 
+Researchers have been looking at the problem from different point of view.
+
+
+
+
+% Require parameter selection:
+% PCA 
+Eagle et al. \cite{Eagle_2009} use principal component analysis (PCA), a general-purpose dimensionality reduction method, 
+to obtain main components that construct human daily routines from the MIT Reality Mining dataset. 
+However, PCA’s eigen-vectors have no explicit semantic meanings and they do not encode uncertainty 
+in human daily routines at a specific time point. 
+
+
+% body worn sensor
+Huynh et al. \cite{Huynh_2008} discover daily routines from wearable sensor data using K-means clustering to build activity vocabulary 
+and using LDA to learn topic proportions for each time window.
+Huynh et al. applied topic models to discover activity routines, such as lunch and office work from activity primitives \cite{Huynh_2008}.
+They used activity primitives including desk activity and having lunch, which were classified using a previously trained Naive Bayes model.
+These activity primitives were subsequently considered as input for the topic model. Since the activity primitives required a trained classifier, 
+annotations of actual activity performances would be needed during the classifier training. In contrast, we investigate whether the activity 
+routines of rehabilitation patients could be discovered from activity primitives without the need of trained classifiers. 
+
+% ambient sensors
+Farrahi et al. \cite{Farrahi_2011} also apply LDA on labeled cell tower data to automatically discover routines, including “being at work” or 
+“going home from work”. Zheng et al. \cite{Zheng_2012} propose a probabilistic generative model for learning users' latent behavior patterns based on 
+unlabeled cell tower data. 
+
+% Pobabilistic
+However, these methods all require parameter selection such as the size of vocabulary, 
+the number of topics, and the number of typical states of a user. Parameter selection is usually 
+done via trial and error, cross validation, or perplexity measurement with a wide range of settings 
+for the parameters on the training data. They assume that the model complexity is fixed.
+
+%non Parametric
+Recently, the concept of nonparametric methods has shown
+promise in the field of mobile computing. For example, Hu et
+al. [15] solve low-level abnormal activity recognition problem
+by using hierarchical Dirichlet process hidden Markov model
+(HDP-HMM) to automatically decide the right number of
+states for HMM. Similarly, Zhu et al. [16] segment a small
+number of activities using HDP-HMM. Nguyeh et al. [17]
+apply HDP model to extract users’ proximity patterns from
+sociometric badge data.  \cite{Sun_2014} proposes a new nonparametric framework for 
+human routine discovery that can construct low-level activity primitives and extract high-level 
+routines from raw sensor data without the need of model selection procedures. Parameters are automatically 
+selected and it allows the model complexity to change as more data are available.
+In \cite{Sun_2014}, is presented a novel nonparametric framework for human routine discovery that can 
+infer high-level routines without knowing the number of latent topics beforehand. Our approach is evaluated on 
+public datasets in two routine domains: a 34-daily-activity dataset and a transportation mode dataset. Experimental 
+results show that our nonparametric framework can automatically learn the appropriate model parameters from sensor data 
+without any form of model selection procedure and can outperform traditional parametric approaches for human routine discovery tasks.
+
+
+
+Topic models were initially designed for text mining, but they are
+also effective in extracting human behavior patterns \cite{Huynh_2008,Farrahi_2011}.
+
+
+
+
+Most existing approaches for automatic routine discovery
+are built on parametric topic models such as latent Dirichlet
+allocation (LDA) \cite{Blei_2003}. In a topic model for text mining, a
+document is a mixture of a number of hidden topics which
+can be represented by a multinomial topic proportion. Topic
+models were initially designed for text mining, but they are
+also effective in extracting human behavior patterns \cite{Huynh_2008, Farrahi_2011}.
+We can make an analogy between text and sensor data.
+In the context of mining a sequence of sensor data, sensor data features are first mapped into a set of discrete labels (vocabulary). 
+Each mapped data feature becomes a word.
+Then, the bag of words in each temporal window (document) is used to train the topic model. Documents belong to the same routine if 
+they have similar topic proportions. In the parameteric setting, the above procedure requires two types of parameters to be predefined: 
+the size of vocabulary and the number of latent topics. Typically, they are chosen in a trial-and-error fashion \cite{Huynh_2008,Farrahi_2011}.
+
+However, for routine discovery, such parameter specification poses several challenges. First of all, the best parameter values for personalized 
+models may be different for different users.
+For example, due to the fact that different people usually have very distinct behavior patterns based on their lifestyles, job types, or ages, 
+their routine patterns may require different number of latent topics to model appropriately. Moreover, even for a single user, it is possible 
+that her behavior patterns change over time. The best parameter values must also be adjusted accordingly. Hence, we need the model to automatically 
+select parameter values based on individual users' behavior patterns.
+In this paper, we propose a novel human routine discovery framework using nonparametric Bayesian methods. The goal is to avoid declaring the number of 
+activities and routines in a person's daily life beforehand in parametric settings (see Figure 1). Our framework consists of two phases: vocabulary 
+extraction and routine extraction. During the first
+phase (vocabulary extraction), we build up the vocabulary and automatically determine the size of vocabulary (lowlevel activity representation) 
+from raw sensor data using the k-means clustering algorithm with automatic selection of number of clusters. In the second phase (routine extraction), 
+we infer topic proportions (high-level routine representation) for each document with the automatically determined number of latent topics using hierarchical 
+Dirichlet process (HDP) and extract latent routines. We demonstrate the effectiveness of our framework with two public real-world datasets for the routine 
+discovery tasks. Experimental results indicate that HDP automatically
+selects the appropriate number of latent topics and achieves
+better clustering performance compared to LDA, with the best
+number of routines setting. Moreover, DPGMM outperforms
+parametric clustering method (i.e., K-means) for the vocabulary
+extraction in terms of routine clustering performance.
+
+The main contributions of this paper are summarized as follows: (1) We design and implement a nonparametric framework that can learn a low-level activity vocabulary with automatically chosen size and discover high-level routines from sensor data without declaring the number of latent topics in advance. (2) We conduct experiments on public datasets
+in two routine domains: a 34-daily-activity dataset and a transportation mode dataset to demonstrate the effectiveness of our approach in discovering human routines from sensor data.
+In Section II, we describe related work in the area of activity recognition and human routine discovery. In Section III, we review the background of nonparametric Bayesian methods.
+Section IV introduces and analyzes the characteristics of two public real-world datasets: a 34-daily-activity dataset and a GPS trajectory dataset. In Section V, we show how our human routine discovery framework can be applied on these two datasets. Experimental results are given in Section VI. Finally, conclusion and future research direction are presented in Section VII.
+
+
+
+Several works have researched the use of smart homes with different kinds of sensors embedded in the environment [14].
+Cameras [15], electricity usage detectors [16], RFID (radio-frequency identification) sensors placed on furniture [17] and
+motion sensors [18] are examples of ambient sensors used to measure human behaviour and to detect abnormalities in a
+smart home environment.
+
+Information gathered by multi-modal and ambient sensors can be used to predict and to prevent health risks by healthcare
+platforms or alarm-triggering systems [19]. However ambient sensors like cameras can be intrusive in some scenarios
+and can be seen as a privacy issue by users.
+Wearable sensors refer to sensors that can be worn by users. Although they are more accurate than ambient sensors
+to measure the human body, some works report their invasiveness [14] and the reluctance of some users to wear
+them [4]. The solution is to integrate sensors in clothes or clothing accessories to achieve an accurate wearable measurement
+method without invading user privacy. Commercial wearable sensors (Fitbit, JawBone Up, Nike+ Fuelband) are
+available in the market as an example of this strategy. They are mainly integrated in wrist accessories with sport-tracking
+purposes.
+Accelerometers are the most common wearable sensor used to measure human behaviour through physical activity.
+They are small, lightweight and portable, and motion can be recorded to provide an indication of the frequency, duration,
+and intensity of activities [20]. Their drawback is the lack of standards for conversion of the raw output of an accelerometer
+to activity magnitudes [21]. Several works [22–24] use accelerometers to measure human behaviour. They differ on the
+number and position of the accelerometers used; wrist, waist and chest are the most common locations for sensors on the
+human body.
+Mobile phones can be used as wearable sensors because they are carried by users throughout the day. Their use as
+wearable sensors is limited to the kind of sensors (precision, sampling rate, etc.) integrated in the device and the fact that
+not all users carry the mobile phone in the same position [25]. They are not usually lightweight and they are bigger than
+portable devices exclusively devoted to the sensors required to measure human behaviour.
+In this work, wearable sensors are used to measure human behaviour using physical activity. The invasiveness of the
+sensor is minimized using a watch-like device.
+
+
+
+
+
+
+
+
+
+
+
+%%DIFFERENCE WITH PAPER SUN
+
+Gaussian mixture models are formed by combining multivariate normal density components.
+Data are fit to the distribution using an expectation maximization (EM) algorithm, which assigns posterior probabilities to each component density with respect to each observation.
+
+Gaussian mixture distributions can be used for clustering data, by realizing that the multivariate normal components of the fitted model can represent clusters.
+Clusters are assigned by selecting the component that maximizes the posterior probability. Like k-means clustering, Gaussian mixture modeling uses an iterative algorithm that converges to a local optimum. Gaussian mixture modeling may be more appropriate than k-means clustering when clusters have different sizes and correlation within them. Clustering using Gaussian mixture models is sometimes considered a soft clustering method. The posterior probabilities for each point indicate that each data point has some probability of belonging to each cluster.
+
+For cluster to provide meaningful results with new data, Y should come from the same population as X, the original data used to create the mixture distribution. In particular, the estimated mixing probabilities for the Gaussian mixture distribution fitted to X are used when computing the posterior probabilities for Y.
